@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Waa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" href="assets/icons/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400;500&family=VT323&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- BG LAYERS -->
+<canvas id="bgCanvas"></canvas>
+<div id="gradBg"></div>
+<div id="grain"></div>
+<div id="vignette"></div>
+<div id="prog"></div>
+
+<!-- CURSOR -->
+<div id="cur">
+  <svg width="18" height="20" viewBox="0 0 18 20" xmlns="http://www.w3.org/2000/svg" image-rendering="pixelated">
+    <rect x="2" y="0" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="2" y="2" width="2" height="2" fill="#8b68cc"/>
+    <rect x="2" y="4" width="2" height="2" fill="#8b68cc"/>
+    <rect x="2" y="6" width="2" height="2" fill="#8b68cc"/>
+    <rect x="2" y="8" width="2" height="2" fill="#8b68cc"/>
+    <rect x="2" y="10" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="4" y="2" width="2" height="2" fill="#b99ee8"/>
+    <rect x="4" y="4" width="2" height="2" fill="#8b68cc"/>
+    <rect x="4" y="6" width="2" height="2" fill="#8b68cc"/>
+    <rect x="4" y="8" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="6" y="4" width="2" height="2" fill="#b99ee8"/>
+    <rect x="6" y="6" width="2" height="2" fill="#8b68cc"/>
+    <rect x="6" y="8" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="8" y="6" width="2" height="2" fill="#b99ee8"/>
+    <rect x="8" y="8" width="2" height="2" fill="#8b68cc"/>
+    <rect x="4" y="10" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="6" y="10" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="4" y="12" width="2" height="2" fill="#8b68cc"/>
+    <rect x="6" y="12" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="8" y="10" width="2" height="2" fill="#8b68cc"/>
+    <rect x="10" y="8" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="8" y="12" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="6" y="14" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="8" y="14" width="2" height="2" fill="#8b68cc"/>
+    <rect x="10" y="10" width="2" height="2" fill="#8b68cc"/>
+    <rect x="10" y="12" width="2" height="2" fill="#5c3fa0"/>
+    <rect x="10" y="14" width="2" height="2" fill="#5c3fa0"/>
+  </svg>
+</div>
+<div id="cur-ring"></div>
+<div id="aura"></div>
+
+<!-- muñequito que dice hola xd -->
+<img id="mascot"
+  src="assets/icons/munequito.gif"
+  alt="hola!"
+  title="hola :)"
+/>
+
+<!-- MUSIC BADGE -->
+<div id="mbadge">
+  <div class="mb"><span></span><span></span><span></span></div>
+  <span>20 MIN — UZI</span>
+</div>
+
+
+<!-- ══════════════ MINI PETs ══════════════ -->
+<div id="pet"></div>
+<div id="pet-bubble">hola OwO</div>
+
+
+<!-- ══ EASTER  ══ -->
+<div id="hint-overlay">
+  <div id="hint-title">✦ COMO LLEGASTE AQUÍ?? ✦</div>
+  <div id="hint-body">
+    ingresa el patrón secreto<br>
+    para ver el show
+  </div>
+  <div id="hint-pattern">↓ ↓ ↑ → ←</div>
+  <div id="hint-input-display">_ _ _ _ _</div>
+  <div id="hint-close" onclick="closeHint()">[ cancelar ]</div>
+</div>
+
+<!-- ══ EASTER PIKIPIKIKIPKI ══ -->
+<div id="easter-overlay">
+  <div id="easter-title">✦ EHH EHH EHH ✦</div>
+  <div id="easter-subtitle">SIMEPIDEWIKIWIKIWIKIWIKIWIKI</div>
+</div>
+
+<!-- ══ 2AM  ══ -->
+<div id="secret-2am">
+  "OYEE son las 02:02 am,<br>no tienes sueño??"<br>
+  <span style="color:var(--muted);font-size:11px">— Waa</span>
+</div>
+
+<!-- ══ SECRETITO ══ -->
+<div id="scroll-secret">// hay mucho más de lo que ves (toca todo y verás) </div>
+
+<!-- ══ GLITCH FLASH ══ -->
+<div id="glitch-flash"></div>
+
+<!-- ══ MASCOT HINT BUBBLE ══ -->
+<div id="mascot-hint">¡hazme click 5 vecess!</div>
+
+<!-- ══ AUDIO BAILEE ══ -->
+<audio id="dance-audio" preload="none">
+  <source src="assets/audio/cancion-baile.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- ══ POLAROID OVERLAY PHOTO══ -->
+<div id="polaroid-overlay">
+  <div id="polaroid-frame">
+    <img id="polaroid-img" src="" alt="">
+    <div id="polaroid-caption"></div>
+    <span id="polaroid-close" onclick="closePolaroid()">[ cerrar ]</span>
+  </div>
+</div>
+
+<!-- ══ POLAROID OVERLAY VIDEO ══ -->
+<div id="video-overlay" class="polaroid-v-style">
+  <div id="polaroid-frame">
+    <video id="p-video-player" playsinline>
+      <source src="assets/video/fuegoo.mp4" type="video/mp4">
+    </video>
+    <div id="polaroid-caption">REPRODUCIENDO SONIDO...</div>
+    <span id="polaroid-close" onclick="closeVideoPolaroid()">[ cerrar ]</span>
+  </div>
+</div>
+
+
+<!-- ══ MENU custom ══ -->
+<div id="ctx-menu">
+  <div class="ctx-label">// exe.exe</div>
+  <div class="ctx-item" onclick="ctxAction('inspect')">
+    <span class="ctx-icon">🔍</span> Hecho por:
+  </div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" onclick="ctxAction('sleep')">
+    <span class="ctx-icon">🌙</span> modo nocturno
+  </div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" onclick="ctxAction('pet')">
+    <span class="ctx-icon">🐾</span> llama al pet
+  </div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" onclick="ctxAction('close')">
+    <span class="ctx-icon">✖</span> cerrar menú
+  </div>
+</div>
+
+<!-- ══════════════ TERMINALES ══════════════ -->
+<div class="cmdw" id="w1">
+  <div class="wbar" data-w="w1">
+    <div class="wdots"><div class="wd wdr" onclick="closeW('w1')"></div><div class="wd wdy"></div><div class="wd wdg"></div></div>
+    <div class="wtitle">sobre_mi.txt</div>
+  </div>
+  <div class="wbody">
+    <div><span class="wp">C:\1234&gt; </span><span class="wa">whoami¿</span></div>
+    <div style="padding-left:14px">estudiante de ing de software</div>
+    <div style="padding-left:14px">pisé 3 universidades</div>
+    <div style="padding-left:14px">pero aprendí más por mi cuenta xd </div>
+    <br>
+    <div><span class="wp">C:\1234&gt; </span><span class="wa">quehagoconmi_vida?.txt</span></div>
+    <div style="padding-left:14px"><span class="wa">→</span> programo por aburrimiento</div>
+    <div style="padding-left:14px"><span class="wa">→</span> crackeo juegos/apps/programas y</div>
+    <div style="padding-left:14px"><span class="wa"></span>  todo lo que puedas imaginar</div>
+    <br>
+    <div><span class="wp">C:\1234&gt; </span><span class="wblink"></span></div>
+  </div>
+</div>
+<div class="cmdw" id="w2">
+  <div class="wbar" data-w="w2">
+    <div class="wdots"><div class="wd wdr" onclick="closeW('w2')"></div><div class="wd wdy"></div><div class="wd wdg"></div></div>
+    <div class="wtitle">fullstack.log</div>
+  </div>
+  <div class="wbody">
+    <div><span class="wp">C:\axel&gt; </span><span class="wa">skills o al menos lo que entiendo</span></div>
+    <div style="padding-left:14px"><span class="wa">[✓]</span> Java — si no fuera por MC lo odiaría</div>
+    <div style="padding-left:14px"><span class="wa">[✓]</span> PYTHON — así los pets tienen vida xd</div>
+    <div style="padding-left:14px"><span class="wa">[✓]</span> C++ — BESTO LP</div>
+    <div style="padding-left:14px"><span class="wa">[✓]</span> HTML / CSS / JS — con eso hice todo esto</div>
+    <div style="padding-left:14px;color:var(--muted)">[~] llego a aprender COBOL y desaparezco</div>
+    <br>
+    <div><span class="wp">C:\axel&gt; </span><span class="wa">Proyectos en proceso</span></div>
+    <div style="padding-left:14px">Mi propio Jarvis (muy friki no?)</div>
+    <div style="padding-left:14px">Sims pero con vestidos de boda¿</div>
+    <div style="padding-left:14px">Shh...</div>
+    <br>
+    <div><span class="wp">C:\axel&gt; </span><span class="wblink"></span></div>
+  </div>
+</div>
+<div class="cmdw" id="w3">
+  <div class="wbar" data-w="w3">
+    <div class="wdots"><div class="wd wdr" onclick="closeW('w3')"></div><div class="wd wdy"></div><div class="wd wdg"></div></div>
+    <div class="wtitle">playlist.m3u</div>
+  </div>
+  <div class="wbody">
+    <div><span class="wp">C:\axel&gt; </span><span class="wa">Escuchando ahora:</span></div>
+    <div style="padding-left:14px"><span class="wa">♪</span> 20 Min — Lil Uzi Vert <span style="color:var(--muted)">[fav]</span></div>
+    <br>
+    <div><span class="wp">C:\axel&gt; </span><span class="wa">Un poco de lo que escucho</span></div>
+    <div style="padding-left:14px">01. 20 Min — Lil Uzi Vert</div>
+    <div style="padding-left:14px">02. Alright — Kendrick</div>
+    <div style="padding-left:14px">03. Do for love — 2Pac</div>
+    <div style="padding-left:14px">04. Close Up — Olivia Dean</div>
+    <div style="padding-left:14px">05. I Could Die for You — Red Hot Chilli Peppers</div>
+    <div style="padding-left:14px;color:var(--muted)">... lo peor de todo es que sí está conectado a mi spotify</div>
+    <br>
+    <div><span class="wp">C:\axel&gt; </span><span class="wblink"></span></div>
+  </div>
+</div>
+
+
+<!-- ══════════════ MINECRAFT LOADING (SPIRAL) ══════════════ -->
+<div id="mcload">
+  <div id="mc-pct-txt">0%</div>
+  <canvas id="mc-spiral-canvas" style="image-rendering:pixelated;display:block;border:4px solid #333;"></canvas>
+  <div id="mc-tip">// lo que me costó hacer este loader DIOSSSS</div>
+</div>
+
+<!-- ══════════════ INTRO ══════════════ -->
+<div id="intro">
+  <!-- orbs -->
+  <div class="intro-orb" style="width:600px;height:600px;top:40%;left:50%;background:radial-gradient(circle,rgba(92,63,160,.22),transparent 65%);"></div>
+  <div class="intro-orb" style="width:300px;height:300px;top:20%;left:20%;background:radial-gradient(circle,rgba(139,104,204,.1),transparent 65%);animation-delay:-2.5s;animation-duration:7s;"></div>
+
+  <p class="i-eye">sigo sin saber porque hice esto</p>
+  <h1 class="glitch" data-text="Waa" style="color:var(--p2);text-shadow:0 0 60px rgba(139,104,204,.7)">Waa</h1>
+  <p class="i-sub">
+    A · X · E · L<br>
+    <span style="color:var(--p1)">// toca para chismear LJAKSJD</span>
+  </p>
+  <p class="i-cta">[ taptap a la pantallita (full tikitiki) ]</p>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+
+  <!-- ──  FOTO ── -->
+  <section class="scene">
+
+    <!-- LABELS FLOTADORES -->
+    <div class="label-sticker deco" style="top:12%;right:4%;transform:rotate(4deg)">✦ Bio¿ ✦</div>
+    <div class="label-sticker deco" style="bottom:14%;left:2%;transform:rotate(-3deg);font-size:10px">muy corto, no?</div>
+
+    <!-- WAA ESCONDIDO  -->
+    <div class="deco" style="position:absolute;top:18%;left:-2%;font-family:'Cormorant Garamond',serif;font-size:clamp(80px,18vw,150px);color:rgba(92,63,160,.04);letter-spacing:-.04em;user-select:none;z-index:1;font-weight:300">WAA</div>
+
+    <div class="s-inner">
+      <div class="s-eye">#01 — Yo</div>
+      <div class="hero-layout">
+        <!-- FOTO PRINCIPAL -->
+        <div class="hero-photo">
+          <div class="photo-slot">
+            <div class="ph-icon">🖼</div>
+            <div class="ph-txt">foto </div>
+            <div class="ph-code"><br>
+              <img src="assets/gif/foto-principal.gif"
+              alt="axel"
+              style="width:100%;height:75%;object-fit:cover;display:block;">
+            </div>
+          </div>
+        </div>
+        <!-- BIO DEL LADO -->
+        <div style="display:flex;flex-direction:column;gap:12px;justify-content:center;">
+          <h2 class="s-h" style="margin-bottom:0">soy un simple <em>dev</em> con mucho tiempo libre</h2>
+          <p class="s-p" style="margin-bottom:0;font-size:clamp(15px,3vw,18px)">
+            En realidad tengo <strong>insomnio</strong> así que en la noche programo lo primero que se me ocurre xd<br>
+            Un poco de lo <strong>poco </strong> que sé:
+          </p>
+          <div class="tags">
+            <span class="tag">c++</span><span class="tag">html</span>
+            <span class="tag">python</span><span class="tag">css</span>
+            <span class="tag">js</span><span class="tag">java</span>
+          </div>
+          <!-- FOTO SECUNDARIA -->
+          <div class="hero-photo-sm" style="height:100px">
+            <div class="photo-slot" style="height:100%">
+                <img src="assets/img/foto2.jpg"
+                alt="el dino de google (juego infravalorado)"
+                style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FRASE ── -->
+  <section class="scene">
+    <div class="label-sticker deco" style="top:10%;left:3%;transform:rotate(-5deg)">✦ Como? ✦</div>
+
+    <div class="s-inner">
+      <div class="s-eye">#02 — boca de loca no se equivoca </div>
+      <h2 class="s-h">Ser o no <em>SER</em>, parecer<br> o <em>CARECER</em>?</h2>
+      <div class="s-div"></div>
+
+      <!-- KGOT -->
+      <div class="quote-block">
+        <p class="qtext">
+          "If I told you that a flower bloomed in<br>
+          a dark room, would you trust it?"
+        </p>
+        <p class="qby">— [ KGOTT ⋄ Poetic Justice ⋄ 2012 ]</p>
+      </div>
+
+      <div class="s-div"></div>
+      <p class="s-p">
+        Nunca digas <strong>NUNCA</strong> y<br>
+        sin <strong>DOLOR</strong> no hay gloria<br>
+        Visionario quien me lo haya dicho...
+      </p>
+<!-- VIDEO -->
+  <div class="video-slot" onclick="openVideo()" style="cursor:pointer">
+  <div class="vs-icon"></div>
+  <div class="vs-code">
+    <video autoplay muted loop playsinline>
+      <source src="assets/video/fuegoo.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+  </section>
+
+  <!-- ── MÚSICA ── -->
+  <section class="scene">
+    <div class="label-sticker deco" style="top:8%;right:3%;transform:rotate(6deg)">♪ A CADA RATO??</div>
+    <div class="label-sticker deco" style="bottom:12%;left:2%;transform:rotate(-4deg);font-size:10px">Tracks más escuchados</div>
+
+    <!-- GIF decorativo -->
+    <div class="deco" style="top:15%;right:2%;width:clamp(70px,14vw,120px);border-radius:6px;overflow:hidden;border:1px solid var(--b);opacity:.7">
+      <img src="assets/gif/musica.gif" style="width:100%;display:block">
+    </div>
+
+    <div class="s-inner">
+      <div class="s-eye">#03 — Musickk</div>
+      <h2 class="s-h">Sin <em>SPOTIFY</em><br> no soy <em>NADA</em></h2>
+      <div class="s-div"></div>
+
+      <div class="np" style="margin-bottom:16px">
+        <div class="vinyl"></div>
+        <div class="track-info">
+          <div class="track-name">20 min</div>
+          <div class="track-art">lil uzi vert — <span style="color:var(--p3)">TEMÓNN</span></div>
+        </div>
+        <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="artist-grid">
+        <div class="artist-card">
+          <div class="ac-name">Kendrick Lamar</div>
+          <div class="ac-sub">ALRIGHT</div>
+        </div>
+        <div class="artist-card">
+          <div class="ac-name">Playboi Carti</div>
+          <div class="ac-sub">Fell in luv</div>
+        </div>
+        <div class="artist-card">
+          <div class="ac-name">Afrodisiaco</div>
+          <div class="ac-sub">El Tiempo</div>
+        </div>
+        <div class="artist-card">
+          <div class="ac-name">De La Rose</div>
+          <div class="ac-sub">NUBES</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── JUEGOS ── -->
+  <section class="scene" style="min-height:auto;padding:100px 24px 180px;">
+    <div class="label-sticker deco" style="top:9%;left:2%;transform:rotate(-6deg)">LOCURA LOCURAA</div>
+
+    <div class="s-inner">
+      <div class="s-eye">#04 — en todos lados menos en mi mente xd</div>
+      <h2 class="s-h">a veces siento que <br>estoy más <em>allá</em> que acá </h2>
+      <div class="s-div"></div>
+      <div class="game-grid">
+
+        <!-- STARDEW VALLEY -->
+        <div class="game-card game-stardew">
+          <div class="gc-frame gc-frame-stardew"></div>
+          <div class="gc-img gc-img-stardew">
+            <img src="assets/gif/axel-stardew.gif">
+          </div>
+          <div class="gc-lbl">
+            <div class="gc-name">Stardew Valley</div>
+          </div>
+        </div>
+
+        <!-- TERRARIA -->
+        <div class="game-card game-terraria">
+          <div class="gc-frame gc-frame-terraria"></div>
+          <div class="gc-img gc-img-terraria">
+            <img src="assets/gif/axel-terraria.gif">
+          </div>
+          <div class="gc-lbl">
+            <div class="gc-name">Terraria</div>
+          </div>
+        </div>
+
+        <!-- BRAWL STARS -->
+        <div class="game-card game-brawl">
+          <div class="gc-frame gc-frame-brawl"></div>
+          <div class="gc-img gc-img-brawl">
+            <img src="assets/gif/axel-brawl.gif">
+          </div>
+          <div class="gc-lbl">
+            <div class="gc-name">Brawl Stars</div>
+          </div>
+        </div>
+
+        <!-- SPIDERMAN -->
+        <div class="game-card game-spider">
+          <div class="gc-frame gc-frame-spider"></div>
+          <div class="gc-img gc-img-spider">
+            <img src="assets/gif/axel-spider.gif">
+          </div>
+          <div class="gc-lbl">
+            <div class="gc-name">Spider-Man</div>
+          </div>
+        </div>
+
+        
+
+        <!-- ROBLOCS -->
+        <div class="game-card game-roblox">
+          <div class="gc-frame gc-frame-roblox"></div>
+          <div class="gc-img gc-img-roblox">
+            <img src="assets/gif/axel-roblox.gif">
+          </div>
+          <div class="gc-lbl">
+            <div class="gc-name">Roblox</div>
+          </div>
+        </div>
+
+        <!-- MINECRAFT -->
+        <div class="game-card game-minecraft">
+          <div class="gc-frame gc-frame-minecraft"></div>
+          <div class="gc-img gc-img-minecraft">
+              <img src="assets/gif/axel-minecraft.gif">
+          </div>
+          <div class="gc-lbl">
+            <div class="gc-name">Minecraft</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TERMINALES ── -->
+  <section class="scene">
+    <div class="label-sticker deco" style="top:10%;right:3%;transform:rotate(5deg)">WAaAaAaAaA</div>
+
+    <div class="s-inner">
+      <div class="s-eye">05 — Buscas algo?</div>
+      <h2 class="s-h">un poco de <br><em>más</em> de mí</h2>
+      <div class="s-div"></div>
+      <p class="s-p" style="margin-bottom:20px">abre una <strong>terminal</strong> para que chismees un poco xd</p>
+      <div class="wbtns">
+        <div class="wbtn" onclick="openW('w1',this)">▶ yo.exe</div>
+        <div class="wbtn" onclick="openW('w2',this)">▶ full_stack¿.log</div>
+        <div class="wbtn" onclick="openW('w3',this)">▶ playlist.m3u</div>
+      </div>
+
+      <div class="s-div"></div>
+
+      <!-- GIFS -->
+<div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+  
+  <!-- Slot 1: Gatito -->
+  <div class="gif-slot" style="aspect-ratio: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid var(--b)">
+    <img src="assets/gif/gatito.gif" alt="Gatito" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.5);">
+  </div>
+
+  <!-- Slot 2: Coding -->
+  <div class="gif-slot" style="aspect-ratio: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid var(--b)">
+    <img src="assets/gif/coding.gif" alt="Coding" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.1);">
+  </div>
+
+  <!-- Slot 3: Kendrick -->
+  <div class="gif-slot" style="aspect-ratio: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid var(--b)">
+    <img src="assets/gif/kendrick.gif" alt="Kendrick" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.2);">
+  </div>
+
+</div>
+
+    </div>
+  </section>
+
+
+  <!-- ── BUZÓN ── -->
+  <section class="scene" id="buzon-section">
+    <div class="label-sticker deco" style="top:8%;right:3%;transform:rotate(5deg)">CHATT</div>
+
+    <div class="s-inner">
+      <div class="s-eye">06 — algo que decir?</div>
+      <h2 class="s-h">dime lo que quieras <br>los mensajes son <em>anónimos</em>   (creo xd)</h2>
+      <div class="s-div"></div>
+      <p class="s-p" style="margin-bottom:20px">
+        anónimo o no, <strong>sea lo que sea</strong>.<br>
+        lo terminaré leyendo 
+      </p>
+
+      <div class="buzon-wrap">
+        <!-- SOY -->
+        <div class="buzon-soy-row">
+          <span class="buzon-soy-label">Soy:</span>
+          <select class="buzon-select" id="buzon-quien">
+            <option value="Yo">Yo</option>
+            <option value="Tu">Tu</option>
+            <option value="custom">Mi nombre es...</option>
+          </select>
+          <input
+            class="buzon-name-input hidden"
+            id="buzon-name"
+            type="text"
+            placeholder="escribe tu nombre o  lo que quieras"
+            maxlength="40"
+          >
+        </div>
+
+        <!-- MENSJEA -->
+        <textarea
+          class="buzon-textarea"
+          id="buzon-msg"
+          placeholder="escribe tu mensaje acá..."
+          maxlength="500"
+        ></textarea>
+        <div class="buzon-counter"><span id="buzon-chars">0</span>/500</div>
+
+        <!-- MANDAR -->
+        <button class="buzon-btn" id="buzon-send">
+          <span>▶ enviar</span>
+        </button>
+
+        <!-- ESTADO -->
+        <div class="buzon-status" id="buzon-status"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──LINKS ── -->
+  <section class="scene scene-final" id="scene-end" style="padding-bottom:140px;min-height:100vh">
+    <div class="label-sticker deco" style="top:8%;left:3%;transform:rotate(-4deg)">SPAM</div>
+    <div class="s-inner">
+      <div class="s-eye">07 — srry por el spam xd</div>
+      <h2 class="s-h">si te interesó lo que viste <br>encuentrame<em> aquí ↴</em></h2>
+      <div class="s-div"></div>
+      <p class="s-p" style="margin-bottom:24px">
+        ...y sino,<strong> TAMBIÉN</strong>, <br> baiii
+      </p>
+      <div class="lstack">
+        <a href="https://github.com/Ax-Waa" class="lnk">
+          <div><div>Github</div><div class="lnk-sub">proyectos / código sin gpt xd / cositas variadas</div></div>
+          <span class="lnk-arr">↗</span>
+        </a>
+        <a href="https://www.instagram.com/_dex.s4?igsh=MWl6NjUzYWN6bzB0YQ==" class="lnk">
+          <div><div>Instagram</div><div class="lnk-sub">fijo vienes de acá xd</div></div>
+          <span class="lnk-arr">↗</span>
+        </a>
+        <a href="https://www.tiktok.com/@lil_frenzy1/video/7630284175874018591?is_from_webapp=1&sender_device=pc" class="lnk">
+          <div><div>NO ENTRES</div><div class="lnk-sub">...</div></div>
+          <span class="lnk-arr">↗</span>
+        </a>
+      </div>
+      <footer>
+        hecho a las <span class="acc" id="ft">2:00am</span> &nbsp;·&nbsp; sisi, justo ahora &nbsp;·&nbsp; <span class="acc">xd</span>
+      </footer>
+    </div>
+  </section>
+
+</div><!-- #main -->
+
+<!-- AUDIO -->
+<audio id="audio" loop preload="none">
+    <source src="assets/audio/cancion.mp3" type="audio/mpeg">
+</audio>
+
+<script src="js/main.js"></script>
+</body>
+</html>
